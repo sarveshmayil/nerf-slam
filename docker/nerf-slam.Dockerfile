@@ -58,12 +58,15 @@ RUN cmake ./thirdparty/instant-ngp -B build_ngp
 RUN cmake --build build_ngp --config RelWithDebInfo -j 1
 
 # Install GTSAM
+RUN git clone https://github.com/borglab/gtsam.git
+RUN rm -r thirdparty/gtsam
+RUN mv -v gtsam thirdparty/
 RUN cmake ./thirdparty/gtsam -DGTSAM_BUILD_PYTHON=1 -B build_gtsam 
-RUN cmake --build build_gtsam --config RelWithDebInfo -j 1
+RUN cmake --build build_gtsam --config RelWithDebInfo -j 4
 RUN cd build_gtsam && make python-install
 
 # Install NeRF-SLAM
-RUN python setup.py install
+RUN python3 setup.py install
 
 RUN useradd -m -l -u ${USER_ID} -s /bin/bash ${USER_NAME} \
     && usermod -aG video ${USER_NAME}
