@@ -50,16 +50,16 @@ RUN apt-get -y install libxinerama-dev
 RUN apt-get -y install libxcursor-dev
 RUN apt-get -y install libxi-dev
 RUN apt-get -y install libglew-dev
+RUN apt-get -y install libboost-all-dev
 RUN rm -rf /var/lib/apt/lists/*
 
 # Install Instant NGP
-RUN rm -rf thirdparty/instant-ngp/build_ngp
 RUN cmake ./thirdparty/instant-ngp -B build_ngp 
-RUN cmake --build build_ngp --config RelWithDebInfo -j 2
+RUN cmake --build build_ngp --config RelWithDebInfo -j 1
 
 # Install GTSAM
 RUN cmake ./thirdparty/gtsam -DGTSAM_BUILD_PYTHON=1 -B build_gtsam 
-RUN cmake --build build_gtsam --config RelWithDebInfo -j 2
+RUN cmake --build build_gtsam --config RelWithDebInfo -j 1
 RUN cd build_gtsam && make python-install
 
 # Install NeRF-SLAM
