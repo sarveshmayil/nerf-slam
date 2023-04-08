@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+if [[ ! "$(docker inspect --type=image 11.3.0-base-ubuntu20.04:latest 2> /dev/null)" ]]; then
+  echo "You need to build the base cuda image first"
+fi
+
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 DOCKER_OPTIONS=""
