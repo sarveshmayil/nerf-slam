@@ -22,6 +22,7 @@ LABEL maintainer "NVIDIA CORPORATION <cudatools@nvidia.com>"
 
 # Prevent anything requiring user input
 ENV DEBIAN_FRONTEND=noninteractive
+RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 ENV TERM=linux
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -56,7 +57,7 @@ ENV PATH ${PATH}:/usr/local/cuda/bin
 
 # nvidia-container-runtime
 ENV NVIDIA_VISIBLE_DEVICES all
-ENV NVIDIA_DRIVER_CAPABILIT`IES compute,utility
+ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
 
 RUN apt-get -y update \
     && apt-get -y install \
