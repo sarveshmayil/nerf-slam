@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-IMAGE_TAG=current
+IMAGE_TAG=nerf-slam-cuda11.3-ubuntu20.04:latest
 CONTAINER_NAME=nerf-slam_docker
 
 capabilities_str=\""capabilities=compute,utility,graphics,display\""
@@ -9,7 +9,7 @@ DOCKER_OPTIONS+="-it "
 DOCKER_OPTIONS+="-e DISPLAY=$DISPLAY "
 DOCKER_OPTIONS+="-v /tmp/.X11-unix:/tmp/.X11-unix "
 DOCKER_OPTIONS+="-v $HOME/.Xauthority:/home/$(whoami)/.Xauthority "
-DOCKER_OPTIONS+="-v /home/$USER/:/home/$(whoami)/ "
+# DOCKER_OPTIONS+="-v /home/$USER/:/home/$(whoami)/ "
 DOCKER_OPTIONS+="--name $CONTAINER_NAME "
 DOCKER_OPTIONS+="--privileged "
 DOCKER_OPTIONS+="--gpus=all "
