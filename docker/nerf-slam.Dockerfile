@@ -1,21 +1,9 @@
-# ARG BASE_IMAGE=nvcr.io/nvidia/pytorch:21.10-py3
-ARG BASE_IMAGE=11.3.0-base-ubuntu20.04:latest
+ARG BASE_IMAGE=cuda:11.3.0-base-ubuntu20.04
 
 FROM ${BASE_IMAGE}
 
-ARG USER_NAME=walter
+ARG USER_NAME=user
 ARG USER_ID=1000
-
-# Prevent anything requiring user input
-ENV DEBIAN_FRONTEND=noninteractive
-ENV TERM=linux
-
-# ENV TZ=America
-# RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-
-
-
-RUN echo cmake --version
 
 RUN apt remove --purge --auto-remove cmake
 RUN apt-get -y update && \
@@ -29,7 +17,6 @@ RUN apt-get -y update && \
     apt-get -y install cmake && \
     rm -rf /var/lib/apt/lists/*
 
-ENV CUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda-11.3
 
 # Clone NeRF-SLAM
 WORKDIR /home/${USER_NAME}
@@ -37,9 +24,7 @@ RUN git clone https://github.com/ToniRV/NeRF-SLAM.git --recurse-submodules
 WORKDIR /home/${USER_NAME}/NeRF-SLAM
 RUN git submodule update --init --recursive
 
-
-# Install CUDA 11.3
-RUN pip install torch==1.12.1+cu113 torchvision==0.13.1+cu113 --extra-index-url https://download.pytorch.org/whl/cu113
+# Install required packages
 RUN pip install -r requirements.txt
 RUN pip install -r ./thirdparty/gtsam/python/requirements.txt
 
